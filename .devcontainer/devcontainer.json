@@ -1,0 +1,28 @@
+﻿{
+  "name": "云阙智能 - 爆款分析",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python"
+      }
+    }
+  },
+  "forwardPorts": [8080],
+  "portsAttributes": {
+    "8080": {
+      "label": "API Server",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg chromium-browser && pip install -r requirements.txt && npm install && npx playwright install chromium && npx playwright install-deps chromium && echo '=== 环境就绪 ===' && echo '启动服务: python api_server.py --port 8080'",
+  "remoteUser": "vscode"
+}

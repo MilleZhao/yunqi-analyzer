@@ -1,0 +1,15 @@
+﻿[Unit]
+Description=抖音爆款分析 API Server
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/douyin-analyzer
+EnvironmentFile=/root/douyin-analyzer/.env
+ExecStart=/usr/bin/python3 /root/douyin-analyzer/api_server.py --port 8080
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>???? - AI ??????</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg-primary: #0a0e17;
+  --bg-secondary: #111827;
+  --bg-card: #1a1f2e;
+  --bg-card-hover: #1f2937;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent: #06b6d4;
+  --accent-dim: #0e7490;
+  --accent-glow: rgba(6, 182, 212, 0.15);
+  --border: #1e293b;
+  --border-light: #334155;
+  --radius: 8px;
+  --max-width: 1200px;
+  --nav-height: 64px;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; transition: color .2s; }
+a:hover { color: #22d3ee; }
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-height);
+  background: rgba(10, 14, 23, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+}
+.nav-inner {
+  width: 100%; max-width: var(--max-width); margin: 0 auto;
+  padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-size: 1.25rem; font-weight: 700; letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  color: var(--text-secondary); font-size: 0.9rem; font-weight: 450;
+  padding: 8px 0; position: relative;
+}
+.nav-links a::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: var(--accent); transform: scaleX(0); transition: transform .2s;
+}
+.nav-links a:hover { color: var(--text-primary); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.hero {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: calc(var(--nav-height) + 60px) 24px 60px;
+  background: radial-gradient(ellipse 60% 60% at 50% 30%, rgba(6,182,212,0.08) 0%, transparent 70%),
+              radial-gradient(ellipse 40% 50% at 80% 70%, rgba(59,130,246,0.05) 0%, transparent 60%);
+  position: relative; overflow: hidden;
+}
+.hero-inner {
+  max-width: var(--max-width); margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+}
+.hero-text h1 {
+  font-size: 3.2rem; font-weight: 800; line-height: 1.2; letter-spacing: -0.5px;
+}
+.hero-text h1 .gradient {
+  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-text p {
+  margin-top: 20px; font-size: 1.15rem; color: var(--text-secondary); max-width: 460px; line-height: 1.8;
+}
+.hero-cta { margin-top: 36px; display: flex; gap: 16px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px; border-radius: var(--radius);
+  font-size: 0.95rem; font-weight: 550; cursor: pointer; transition: all .25s;
+  border: none; text-decoration: none;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  color: #fff; box-shadow: 0 4px 20px rgba(6,182,212,0.3);
+}
+.btn-primary:hover { box-shadow: 0 6px 30px rgba(6,182,212,0.45); transform: translateY(-1px); color: #fff; }
+.btn-outline {
+  background: transparent; color: var(--text-primary);
+  border: 1px solid var(--border-light);
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.hero-visual { display: flex; justify-content: center; align-items: center; }
+.dashboard-mock {
+  width: 100%; max-width: 480px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.db-header { display: flex; gap: 8px; margin-bottom: 16px; }
+.db-dot { width: 10px; height: 10px; border-radius: 50%; }
+.db-dot:nth-child(1) { background: #ef4444; }
+.db-dot:nth-child(2) { background: #f59e0b; }
+.db-dot:nth-child(3) { background: #22c55e; }
+.db-title { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; }
+.db-bars { display: flex; align-items: flex-end; gap: 8px; height: 120px; margin-bottom: 16px; }
+.db-bar {
+  flex: 1; border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, var(--accent) 0%, rgba(6,182,212,0.15) 100%);
+}
+.db-bar:nth-child(1) { height: 40%; } .db-bar:nth-child(2) { height: 65%; }
+.db-bar:nth-child(3) { height: 35%; } .db-bar:nth-child(4) { height: 85%; }
+.db-bar:nth-child(5) { height: 55%; } .db-bar:nth-child(6) { height: 70%; }
+.db-bar:nth-child(7) { height: 50%; }
+.db-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.db-stat { background: var(--bg-primary); border-radius: 6px; padding: 12px; }
+.db-stat .val { font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+.db-stat .lbl { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+.section { padding: 100px 24px; }
+.section-label {
+  text-align: center; font-size: 0.78rem; font-weight: 600; letter-spacing: 2px;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+}
+.section-title {
+  text-align: center; font-size: 2.2rem; font-weight: 750; margin-bottom: 16px; letter-spacing: -0.3px;
+}
+.section-desc {
+  text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto 60px; font-size: 1rem;
+}
+.section-inner { max-width: var(--max-width); margin: 0 auto; }
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px;
+  transition: all .3s;
+}
+.card:hover {
+  background: var(--bg-card-hover); border-color: var(--border-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+.card-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--accent-glow); margin-bottom: 16px; font-size: 1.3rem;
+}
+.card h3 { font-size: 1.05rem; font-weight: 650; margin-bottom: 8px; }
+.card p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; }
+.tech-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+.tech-item { display: flex; gap: 16px; }
+.tech-num {
+  font-size: 2.4rem; font-weight: 800; background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1;
+  min-width: 60px;
+}
+.tech-content h4 { font-size: 1rem; font-weight: 650; margin-bottom: 6px; }
+.tech-content p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; }
+.about { background: var(--bg-secondary); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.about-text h2 { font-size: 2rem; font-weight: 750; margin-bottom: 20px; letter-spacing: -0.3px; }
+.about-text p { color: var(--text-secondary); margin-bottom: 16px; line-height: 1.8; font-size: 0.95rem; }
+.about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.stat-item { text-align: center; padding: 20px; background: var(--bg-card); border-radius: var(--radius); border: 1px solid var(--border); }
+.stat-item .num { font-size: 1.8rem; font-weight: 800; color: var(--accent); }
+.stat-item .lbl { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; }
+.contact-info h2 { font-size: 2rem; font-weight: 750; margin-bottom: 20px; letter-spacing: -0.3px; }
+.contact-info p { color: var(--text-secondary); margin-bottom: 24px; line-height: 1.8; }
+.contact-item { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; color: var(--text-secondary); font-size: 0.93rem; }
+.contact-item .icon { color: var(--accent); font-size: 1.1rem; }
+.contact-form { display: flex; flex-direction: column; gap: 16px; }
+.contact-form input, .contact-form textarea {
+  width: 100%; padding: 14px 16px; border-radius: var(--radius);
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text-primary); font-size: 0.9rem; font-family: inherit;
+  transition: border-color .2s;
+}
+.contact-form input:focus, .contact-form textarea:focus {
+  outline: none; border-color: var(--accent);
+}
+.contact-form textarea { min-height: 120px; resize: vertical; }
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 24px 30px;
+}
+.footer-inner {
+  max-width: var(--max-width); margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  color: var(--text-muted); font-size: 0.85rem;
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+  .hero-text p { max-width: 100%; }
+  .hero-cta { justify-content: center; }
+  .hero-text h1 { font-size: 2.2rem; }
+  .cards { grid-template-columns: 1fr; }
+  .tech-grid { grid-template-columns: 1fr; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-stats { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .section-title { font-size: 1.7rem; }
+  .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">????</a>
+    <ul class="nav-links">
+      <li><a href="#products">????</a></li>
+      <li><a href="#tech">????</a></li>
+      <li><a href="#about">????</a></li>
+      <li><a href="#contact">????</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h1><span class="gradient">AI ??</span><br>??????</h1>
+      <p>???????? AI ????????????????????????????????????????????</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary">????</a>
+        <a href="#products" class="btn btn-outline">????</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="dashboard-mock">
+        <div class="db-header"><span class="db-dot"></span><span class="db-dot"></span><span class="db-dot"></span></div>
+        <div class="db-title">????????</div>
+        <div class="db-bars">
+          <div class="db-bar"></div><div class="db-bar"></div><div class="db-bar"></div>
+          <div class="db-bar"></div><div class="db-bar"></div><div class="db-bar"></div>
+          <div class="db-bar"></div>
+        </div>
+        <div class="db-stats">
+          <div class="db-stat"><div class="val">128?</div><div class="lbl">???</div></div>
+          <div class="db-stat"><div class="val">8.6?</div><div class="lbl">???</div></div>
+          <div class="db-stat"><div class="val">94.2%</div><div class="lbl">???</div></div>
+          <div class="db-stat"><div class="val">3.2s</div><div class="lbl">????</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="products">
+  <div class="section-inner">
+    <div class="section-label">Products</div>
+    <h2 class="section-title">?????</h2>
+    <p class="section-desc">?????????? AI ?????????????????????????</p>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">??</div>
+        <h3>??????</h3>
+        <p>??????????????????????????????BGM??????????????????</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">??</div>
+        <h3>??????</h3>
+        <p>????????????????????????????????????????</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">??</div>
+        <h3>??????</h3>
+        <p>???????????????????????????????????????</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">??</div>
+        <h3>AI ????</h3>
+        <p>??????????????????????????????????????</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">??</div>
+        <h3>????</h3>
+        <p>???????????????????????? ROI?????????</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">??</div>
+        <h3>??????</h3>
+        <p>????????????????????????????????????</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="tech">
+  <div class="section-inner">
+    <div class="section-label">Technology</div>
+    <h2 class="section-title">????</h2>
+    <p class="section-desc">?? AI ?? + ?????????????????????</p>
+    <div class="tech-grid">
+      <div class="tech-item">
+        <div class="tech-num">01</div>
+        <div class="tech-content">
+          <h4>???????</h4>
+          <p>????????????????????????????????????</p>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-num">02</div>
+        <div class="tech-content">
+          <h4>??????</h4>
+          <p>??????????? AI ???????????????????????????</p>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-num">03</div>
+        <div class="tech-content">
+          <h4>???????</h4>
+          <p>?????????????????????????????????</p>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-num">04</div>
+        <div class="tech-content">
+          <h4>??????</h4>
+          <p>???????????????????????????????</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section about" id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text">
+        <h2>??????</h2>
+        <p>??????? 2025 ???????? AI ?????????????????? AI ???????????????????????????????????</p>
+        <p>?????????????????????????????????????? AI ???????????????</p>
+        <p>???????????????????????????????????????</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-item"><div class="num">50+</div><div class="lbl">??????</div></div>
+        <div class="stat-item"><div class="num">10?+</div><div class="lbl">??????</div></div>
+        <div class="stat-item"><div class="num">3</div><div class="lbl">????</div></div>
+        <div class="stat-item"><div class="num">95%</div><div class="lbl">?????</div></div>
+        <div class="stat-item"><div class="num">24h</div><div class="lbl">??????</div></div>
+        <div class="stat-item"><div class="num">2025</div><div class="lbl">????</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="section-inner">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">????</h2>
+    <p class="section-desc">?????????????????????????????</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2>???????</h2>
+        <p>?????????????? 24 ????????????????????????</p>
+        <div class="contact-item"><span class="icon">??</span> contact@yunqueshi.com</div>
+        <div class="contact-item"><span class="icon">??</span> 400-XXX-XXXX</div>
+        <div class="contact-item"><span class="icon">??</span> ????????????</div>
+      </div>
+      <form class="contact-form" onsubmit="event.preventDefault(); alert('?????????????????');">
+        <input type="text" placeholder="????" required>
+        <input type="email" placeholder="????" required>
+        <input type="text" placeholder="????">
+        <textarea placeholder="???????..." required></textarea>
+        <button type="submit" class="btn btn-primary" style="justify-content:center;">????</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span>&copy; 2026 ??????????. All rights reserved.</span>
+    <span>?ICP?XXXXXXXX?</span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('nav a[href^="#"]').forEach(function(anchor) {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.card, .tech-item, .stat-item').forEach(function(el) {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>

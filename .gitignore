@@ -1,0 +1,48 @@
+﻿# ============================================================
+# 云阙智能 — 抖音爆款视频分析工具
+# ============================================================
+
+# --- 密钥 / 环境配置 ---
+.env
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+
+# --- Node.js ---
+node_modules/
+
+# --- 视频提取数据（运行时生成） ---
+extracted/
+browser_data/
+douyin_profile/
+render_out/
+
+# --- 截图 / 测试图片 ---
+*.png
+!website/
+
+# --- 中间数据文件 ---
+douyin_*.json
+douyin_*.html
+douyin_result.png
+links_parsed.json
+platform_results.json
+search_results.json
+test_write.json
+*_error.png
+*_result.png
+
+# --- 临时文档 ---
+账号链接汇总.md
+少儿图书_图书_账号链接汇总.docx
+DEPLOY_FILES.txt
+
+# --- 临时测试脚本 ---
+_fix_*.py
+_test_*.py
+
+# --- OS ---
+.DS_Store
+Thumbs.db
