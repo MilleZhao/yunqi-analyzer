@@ -1,5 +1,5 @@
 ﻿{
-  "name": "云阙智能 - 爆款分析",
+  "name": "爆款视频分析工具",
   "image": "mcr.microsoft.com/devcontainers/python:3.12",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {},

@@ -2,7 +2,7 @@
 sys.stdout.reconfigure(encoding="utf-8")
 import docx as dx
 
-links_path = r"C:\Users\LENOVO\Documents\CodexProjects\Project018-云阙智能1\链接.docx"
+links_path = r"链接.docx"
 links_doc = dx.Document(links_path)
 
 xhs_children = []

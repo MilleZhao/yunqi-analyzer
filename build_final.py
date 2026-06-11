@@ -6,7 +6,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
-workdir = r"C:\Users\LENOVO\Documents\云阙智能1"
+workdir = r"WORKDIR"
 
 # Load both datasets
 with open(os.path.join(workdir, "links_parsed.json"), "r", encoding="utf-8") as f:

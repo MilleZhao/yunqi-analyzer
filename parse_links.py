@@ -7,7 +7,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
-workdir = r"C:\Users\LENOVO\Documents\云阙智能1"
+workdir = r"WORKDIR"
 links_path = r"C:\Users\LENOVO\Documents\CodexProjects\Project018-云阙智能1\链接.docx"
 
 # === READ 链接.docx ===

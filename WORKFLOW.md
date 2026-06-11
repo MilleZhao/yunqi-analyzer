@@ -2,7 +2,7 @@
 
 ## 前置条件
 `
-cd C:\Users\LENOVO\Documents\云阙智能1
+cd WORKDIR
 `
 
 ---

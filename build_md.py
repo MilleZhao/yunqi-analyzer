@@ -1,7 +1,7 @@
 ﻿import sys, json, os
 sys.stdout.reconfigure(encoding="utf-8")
 
-workdir = r"C:\Users\LENOVO\Documents\云阙智能1"
+workdir = r"WORKDIR"
 
 with open(os.path.join(workdir, "links_parsed.json"), "r", encoding="utf-8") as f:
     links_data = json.load(f)

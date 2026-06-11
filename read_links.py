@@ -2,7 +2,7 @@
 sys.stdout.reconfigure(encoding="utf-8")
 import docx
 
-doc = docx.Document(r"C:\Users\LENOVO\Documents\CodexProjects\Project018-云阙智能1\链接.docx")
+doc = docx.Document(r"链接.docx")
 
 print("=== PARAGRAPHS ===")
 for i, p in enumerate(doc.paragraphs):

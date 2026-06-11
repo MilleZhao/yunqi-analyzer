@@ -8,7 +8,7 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 # Load data
-workdir = r"C:\Users\LENOVO\Documents\云阙智能1"
+workdir = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(workdir, "douyin_results.json"), "r", encoding="utf-8") as f:
     raw = json.load(f)
 
