@@ -270,7 +270,7 @@ def run_pipeline(url):
     return {"video_id": video_id, "extracted_dir": extracted_dir, "logs": logs}
 
 
-def run_pipeline_full(url, config=None):
+def run_pipeline_full(url, config=None, feishu_cfg=None):
     """�������� + ���ؽṹ����������"""
     if config is None:
         config = {}

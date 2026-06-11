@@ -97,7 +97,13 @@ function parseHashtags(desc) {
 
   var browser = await chromium.launchPersistentContext(PROFILE_DIR, {
     headless: HEADLESS,
-    args: ["--disable-blink-features=AutomationControlled"],
+    args: (function() {
+      var a = ["--disable-blink-features=AutomationControlled"];
+      // Docker 容器检测：root 用户或无 display 时加 --no-sandbox
+      try { if (process.getuid && process.getuid() === 0) a.push("--no-sandbox"); } catch(_) {}
+      if (!process.env.DISPLAY && !process.env.WAYLAND_DISPLAY) a.push("--no-sandbox", "--disable-gpu");
+      return a;
+    })(),
     viewport: { width: 414, height: 896 },
     userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1",
     locale: "zh-CN", isMobile: true, hasTouch: true,

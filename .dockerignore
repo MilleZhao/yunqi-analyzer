@@ -1,0 +1,56 @@
+# ============================================================
+# Docker 构建排除 — 减少镜像体积和构建时间
+# ============================================================
+
+# --- 密钥 ---
+.env
+
+# --- 依赖（Dockerfile 里重新安装）---
+node_modules/
+__pycache__/
+*.pyc
+
+# --- 运行时生成的数据 ---
+extracted/
+browser_data/
+douyin_profile/
+render_out/
+
+# --- 截图和测试数据（几百MB）---
+*.png
+*.jpg
+!website/*.html
+
+# --- 中间数据 ---
+douyin_*.json
+douyin_*.html
+douyin_*.png
+*_result.png
+*_error.png
+links_parsed.json
+platform_results.json
+search_results.json
+test_write.json
+
+# --- Word/临时文档 ---
+*.docx
+账号链接汇总.md
+
+# --- Git ---
+.git/
+.gitignore
+
+# --- IDE ---
+.vscode/
+.devcontainer/
+.DS_Store
+Thumbs.db
+
+# --- 我们自己的临时文件 ---
+_fix.py
+_gen.py
+_gen_final.py
+_check.py
+_check2.py
+_write_md.py
+_mdgen.py
