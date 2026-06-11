@@ -167,7 +167,8 @@ class Handler(BaseHTTPRequestHandler):
                     "vision_model": vision_cfg.get("model") or ENV_CONFIG.get("VISION_MODEL", "doubao-seed-1-8-251228"),
                     "vision_base_url": vision_cfg.get("base_url") or ENV_CONFIG.get("VISION_BASE_URL", ""),
                 }
-                result = run_pipeline_full(url, config)
+                feishu_cfg = body.get("feishu_config", {}) or {}
+                result = run_pipeline_full(url, config, feishu_cfg)
                 self._send_json({"ok": True, **result})
             except Exception as e:
                 import traceback; traceback.print_exc()
@@ -299,13 +300,15 @@ def run_pipeline_full(url, config=None):
         raise RuntimeError(f"LLM analysis failed: {proc.stderr[-300:]}")
     pipe_result["logs"].append("analysis done")
 
-    # Step 5: write to Feishu
-    if FEISHU_BASE:
+    # Step 5: write to Feishu (use config from request, fallback to env)
+    feishu_base = feishu_cfg.get("base_token") or FEISHU_BASE
+    feishu_table = feishu_cfg.get("table_id") or FEISHU_TABLE
+    if feishu_base:
         pipe_result["logs"].append("writing to feishu...")
         try:
             subprocess.run(
                 [PYTHON, "write_to_feishu.py", extracted_dir,
-                 "--base-token", FEISHU_BASE, "--table-id", FEISHU_TABLE, "--skip-if-exists"],
+                 "--base-token", feishu_base, "--table-id", feishu_table, "--skip-if-exists"],
                 cwd=WORKDIR, capture_output=True, text=True,
                 encoding="utf-8", errors="replace", timeout=30
             )
