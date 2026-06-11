@@ -8,7 +8,7 @@ from datetime import datetime
 
 CLI = os.path.expanduser("~/go/bin/cli.exe" if platform.system() == "Windows" else "~/go/bin/cli")
 WORKDIR = os.path.dirname(os.path.abspath(__file__))
-BASE_TOKEN = os.environ.get("FEISHU_BASE_TOKEN", "RlGBbQpxBalchssDFJbcuBjGnee")
+BASE_TOKEN = os.environ.get("FEISHU_BASE_TOKEN", "your-feishu-base-token-here")
 QUEUE_TABLE = "tblo7p6qiglky8g5"
 RESULT_TABLE = "tbllt7XfgHBPcdvS"
 
