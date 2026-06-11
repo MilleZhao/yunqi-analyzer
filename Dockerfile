@@ -16,7 +16,8 @@ RUN sed -i "s@http://.*archive.ubuntu.com@http://mirrors.aliyun.com@g" /etc/apt/
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash -     && apt-get install -y nodejs     && rm -rf /var/lib/apt/lists/*
 
 # ---------- lark-cli (飞书 CLI, 预编译二进制) ----------
-RUN mkdir -p /root/go/bin     && ARCH=$(uname -m)     && case $ARCH in          x86_64)  BIN_ARCH="amd64" ;;          aarch64) BIN_ARCH="arm64" ;;          *)       BIN_ARCH="amd64" ;;        esac     && LARK_URL="https://github.com/larksuite/oapi-sdk-go/releases/latest/download/lark_cli_linux_${BIN_ARCH}"     && wget -q "$LARK_URL" -O /root/go/bin/cli 2>/dev/null || curl -fsSL "$LARK_URL" -o /root/go/bin/cli     && chmod +x /root/go/bin/cli     && echo "lark-cli installed: $(/root/go/bin/cli --version 2>&1 || echo done)"
+# lark-cli (optional - skip if download fails)
+RUN mkdir -p /root/go/bin     && ARCH=$(uname -m)     && case $ARCH in          x86_64)  BIN_ARCH="amd64" ;;          aarch64) BIN_ARCH="arm64" ;;          *)       BIN_ARCH="amd64" ;;        esac     && LARK_URL="https://github.com/larksuite/oapi-sdk-go/releases/latest/download/lark_cli_linux_${BIN_ARCH}"     && ( wget -q --timeout=30 -O /root/go/bin/cli "$LARK_URL" 2>/dev/null || curl -fsSL --max-time 30 -o /root/go/bin/cli "$LARK_URL" )     && chmod +x /root/go/bin/cli     && echo "lark-cli: ok" || echo "lark-cli: skipped""
 
 # ---------- 工作目录 ----------
 WORKDIR /app
@@ -27,7 +28,7 @@ RUN pip3 install --break-system-packages -r requirements.txt
 
 # ---------- Node 依赖 + Playwright ----------
 COPY package.json package-lock.json ./
-RUN npm install     && npx playwright install chromium     && npx playwright install-deps
+RUN npm config set registry https://registry.npmmirror.com     && npm install     && npx playwright install chromium     && npx playwright install-deps
 
 # ---------- 应用代码 ----------
 COPY . .
