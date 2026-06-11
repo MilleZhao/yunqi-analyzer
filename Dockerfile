@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive     PYTHONUNBUFFERED=1     PORT=9000
 # ---------- 系统依赖 ----------
 RUN sed -i "s@http://.*archive.ubuntu.com@http://mirrors.aliyun.com@g" /etc/apt/sources.list.d/ubuntu.sources 2>/dev/null; \
     sed -i "s@http://.*ports.ubuntu.com@http://mirrors.aliyun.com@g" /etc/apt/sources.list.d/ubuntu.sources 2>/dev/null || true; \
-    apt-get update && apt-get install -y --no-install-recommends     python3 python3-pip python3-venv     ffmpeg     curl ca-certificates wget     fonts-wqy-zenhei fonts-noto-cjk     libnss3 libnspr4 libatk-bridge2.0-0 libdrm2 libxkbcommon0     libgbm1 libasound2 libx11-xcb1 libxcomposite1 libxdamage1     libxrandr2 libgtk-3-0 libpango-1.0-0 libcairo2     && rm -rf /var/lib/apt/lists/*
+    apt-get update && apt-get install -y --no-install-recommends     python3 python3-pip python3-venv     ffmpeg     curl ca-certificates wget     fonts-wqy-zenhei fonts-noto-cjk     libnss3 libnspr4 libatk-bridge2.0-0 libdrm2 libxkbcommon0     libgbm1 libasound2t64 libx11-xcb1 libxcomposite1 libxdamage1     libxrandr2 libgtk-3-0 libpango-1.0-0 libcairo2     && rm -rf /var/lib/apt/lists/*
 
 # ---------- Node.js 22 ----------
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash -     && apt-get install -y nodejs     && rm -rf /var/lib/apt/lists/*
